@@ -35,7 +35,7 @@ collections:
       - {label: "Бюджет", name: "budget", widget: "string", required: false}
       - {label: "Фото до", name: "image_before", widget: "image", required: false}
       - {label: "Фото после", name: "image_after", widget: "image", required: false}
-      - {label: "Галерея", name: "gallery", widget: "list", field: {label: "Фото", widget: "image"}, required: false}
+      - {label: "Галерея", name: "gallery", widget: "list", field: {name: "image", label: "Фото", widget: "image"}, required: false}
       - {label: "Описание", name: "body", widget: "markdown"}
       - {label: "Активен", name: "active", widget: "boolean", default: true}
 
