@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             preloader.classList.add('hidden');
             // Initialize animations after preloader
             initAnimations();
-        }, 1500);
+        }, 300);
     } else {
         initAnimations();
     }
