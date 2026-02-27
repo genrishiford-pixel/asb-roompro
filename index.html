@@ -5,15 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АСБ РУМ ПРО | Архитектура, строительство, дизайн</title>
     <meta name="description" content="Строительная компания полного цикла. Проектирование, строительство, дизайн интерьера. Уфа, Москва, Казань.">
+    <meta name="theme-color" content="#1a1a1a">
+    
+    <!-- Critical CSS Inline -->
+    <style>
+        :root{--primary:#1a1a1a;--secondary:#c9a962;--dark:#0a0a0a;--white:#fff;--light:#f5f5f5;--transition:cubic-bezier(.4,0,.2,1)}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--light);color:var(--primary);line-height:1.6;overflow-x:hidden}
+        h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:600;line-height:1.2}
+        a{text-decoration:none;color:inherit}
+        img{max-width:100%;height:auto;display:block}
+        .container{max-width:1400px;margin:0 auto;padding:0 5%}
+        .hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--dark)}
+        .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a,#2d2d2d,#1a1a1a)}
+        .hero-bg::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=60') center/cover;opacity:.4}
+        .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.3),rgba(0,0,0,.6))}
+        .hero-content{text-align:center;color:var(--white);max-width:900px;padding:0 2rem}
+        .hero-subtitle{font-size:.85rem;letter-spacing:.4em;text-transform:uppercase;margin-bottom:1.5rem;color:var(--secondary);font-weight:500}
+        .hero-title{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:1.5rem}
+        .hero-description{font-size:1rem;opacity:.9;max-width:600px;margin:0 auto 2rem;font-weight:300}
+        .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+        .btn{padding:.9rem 1.8rem;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;transition:all .3s var(--transition);border:none;cursor:pointer;display:inline-block}
+        .btn-primary{background:var(--secondary);color:var(--dark)}
+        .btn-primary:hover{background:#d4af37;transform:translateY(-2px)}
+        .btn-outline{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.4)}
+        .btn-outline:hover{background:var(--white);color:var(--dark)}
+        .preloader{position:fixed;inset:0;background:var(--dark);display:flex;justify-content:center;align-items:center;z-index:9999;transition:opacity .5s,visibility .5s}
+        .preloader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .preloader-logo{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--secondary);letter-spacing:.2em}
+        .nav{position:fixed;top:0;left:0;width:100%;padding:1.5rem 5%;display:flex;justify-content:space-between;align-items:center;z-index:1000;transition:all .4s}
+        .nav.scrolled{background:rgba(255,255,255,.98);backdrop-filter:blur(10px);padding:1rem 5%;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+        .nav.scrolled .nav-logo,.nav.scrolled .nav-links a,.nav.scrolled .nav-phone{color:var(--primary)}
+        .nav-logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;color:var(--white);letter-spacing:.1em}
+        .nav-logo span{color:var(--secondary)}
+        .nav-links{display:flex;gap:2rem;list-style:none}
+        .nav-links a{color:var(--white);font-size:.85rem;font-weight:500}
+        .nav-phone{color:var(--white);font-weight:600;font-size:.9rem}
+        .mobile-menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;padding:5px}
+        .mobile-menu-btn span{width:26px;height:2px;background:var(--white);transition:all .3s}
+        .nav.scrolled .mobile-menu-btn span{background:var(--primary)}
+        .mobile-call-btn{display:none;position:fixed;bottom:20px;right:20px;width:50px;height:50px;background:var(--secondary);border-radius:50%;justify-content:center;align-items:center;z-index:999;box-shadow:0 10px 20px rgba(0,0,0,.2)}
+        .mobile-call-btn svg{width:22px;height:22px;fill:var(--dark)}
+        .stats{background:var(--dark);padding:3rem 5%}
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1200px;margin:0 auto}
+        .stat-item{text-align:center;color:var(--white);padding:.5rem}
+        .stat-number{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--secondary);font-weight:600;display:block;margin-bottom:.3rem}
+        .stat-label{font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;opacity:.8}
+        @media(max-width:768px){.nav-links,.nav-phone{display:none}.mobile-menu-btn,.mobile-call-btn{display:flex}.hero-title{font-size:1.8rem}.hero-description{font-size:.9rem}.stats-grid{grid-template-columns:repeat(2,1fr)}.stat-number{font-size:1.8rem}.btn{padding:.8rem 1.4rem;font-size:.75rem}}
+        @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    </style>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
     <!-- Netlify Identity -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
@@ -32,8 +78,9 @@
     <!-- Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="src/css/main.css">
+    <!-- Non-critical CSS async -->
+    <link rel="stylesheet" href="src/css/main.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="src/css/main.css"></noscript>
 </head>
 <body>
     <!-- 1. PRELOADER -->
@@ -218,42 +265,60 @@
             </div>
             <div class="portfolio-grid">
                 <div class="portfolio-item large">
-                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" alt="Коттедж в Уфе" class="portfolio-img">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=60" 
+                         srcset="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=60 400w, https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=60 600w, https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=60 800w"
+                         sizes="(max-width: 768px) 100vw, 60vw"
+                         alt="Коттедж в Уфе" class="portfolio-img" loading="lazy" width="800" height="600">
                     <div class="portfolio-overlay">
                         <span class="portfolio-category">Строительство</span>
                         <h3 class="portfolio-title">Коттедж в Уфе</h3>
                     </div>
                 </div>
                 <div class="portfolio-item medium">
-                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600" alt="Скандинавский интерьер" class="portfolio-img">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=60" 
+                         srcset="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&q=60 300w, https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=60 600w"
+                         sizes="(max-width: 768px) 100vw, 40vw"
+                         alt="Скандинавский интерьер" class="portfolio-img" loading="lazy" width="600" height="400">
                     <div class="portfolio-overlay">
                         <span class="portfolio-category">Дизайн</span>
                         <h3 class="portfolio-title">Скандинавский интерьер</h3>
                     </div>
                 </div>
                 <div class="portfolio-item medium">
-                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600" alt="Современная кухня" class="portfolio-img">
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=60" 
+                         srcset="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=300&q=60 300w, https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=60 600w"
+                         sizes="(max-width: 768px) 100vw, 40vw"
+                         alt="Современная кухня" class="portfolio-img" loading="lazy" width="600" height="400">
                     <div class="portfolio-overlay">
                         <span class="portfolio-category">Ремонт</span>
                         <h3 class="portfolio-title">Современная кухня</h3>
                     </div>
                 </div>
                 <div class="portfolio-item small">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" alt="Гостиная" class="portfolio-img">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=60" 
+                         srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=200&q=60 200w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=60 400w"
+                         sizes="(max-width: 768px) 50vw, 33vw"
+                         alt="Гостиная" class="portfolio-img" loading="lazy" width="400" height="300">
                     <div class="portfolio-overlay">
                         <span class="portfolio-category">Дизайн</span>
                         <h3 class="portfolio-title">Гостиная</h3>
                     </div>
                 </div>
                 <div class="portfolio-item small">
-                    <img src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=600" alt="Спальня" class="portfolio-img">
+                    <img src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=400&q=60" 
+                         srcset="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=200&q=60 200w, https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=400&q=60 400w"
+                         sizes="(max-width: 768px) 50vw, 33vw"
+                         alt="Спальня" class="portfolio-img" loading="lazy" width="400" height="300">
                     <div class="portfolio-overlay">
                         <span class="portfolio-category">Дизайн</span>
                         <h3 class="portfolio-title">Спальня</h3>
                     </div>
                 </div>
                 <div class="portfolio-item small">
-                    <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600" alt="Хай-тек дом" class="portfolio-img">
+                    <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=60" 
+                         srcset="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=200&q=60 200w, https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=60 400w"
+                         sizes="(max-width: 768px) 50vw, 33vw"
+                         alt="Хай-тек дом" class="portfolio-img" loading="lazy" width="400" height="300">
                     <div class="portfolio-overlay">
                         <span class="portfolio-category">Строительство</span>
                         <h3 class="portfolio-title">Хай-тек дом</h3>
@@ -447,7 +512,15 @@
         </div>
     </footer>
 
+    <!-- GSAP - only load on desktop -->
+    <script>
+        if (window.innerWidth >= 768) {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>');
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"><\/script>');
+        }
+    </script>
+    
     <!-- Scripts -->
-    <script src="src/js/main.js"></script>
+    <script src="src/js/main.js" defer></script>
 </body>
 </html>

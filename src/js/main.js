@@ -1,8 +1,12 @@
 /* ========================================
-   АСБ РУМ ПРО - Main JavaScript
+   АСБ РУМ ПРО - Main JavaScript (Optimized)
    ======================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if mobile - skip heavy animations
+    const isMobile = window.innerWidth < 768;
+    const gsapAvailable = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+    
     // ========================================
     // 1. PRELOADER
     // ========================================
@@ -10,28 +14,31 @@ document.addEventListener('DOMContentLoaded', function() {
     if (preloader) {
         setTimeout(() => {
             preloader.classList.add('hidden');
-            // Initialize animations after preloader
             initAnimations();
-        }, 1500);
+        }, isMobile ? 800 : 1500);
     } else {
         initAnimations();
     }
 
     // ========================================
-    // 2. NAVIGATION
+    // 2. NAVIGATION - Use Intersection Observer
     // ========================================
     const nav = document.querySelector('.nav');
     const mobileBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
 
-    // Scroll effect
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    });
+    // Optimized scroll handler with passive listener
+    let scrollTimeout;
+    const handleScroll = () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            if (nav) {
+                nav.classList.toggle('scrolled', window.scrollY > 50);
+            }
+        }, 10);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Mobile menu toggle
     if (mobileBtn && navLinks) {
@@ -39,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinks.classList.toggle('active');
         });
 
-        // Close menu on link click
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -68,15 +74,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ========================================
-    // 4. STATS COUNTER ANIMATION
+    // 4. STATS COUNTER - Intersection Observer
     // ========================================
+    const statsSection = document.querySelector('.stats');
+    let countersAnimated = false;
+    
     function animateCounters() {
-        const statNumbers = document.querySelectorAll('.stat-number');
+        if (countersAnimated) return;
+        countersAnimated = true;
         
+        const statNumbers = document.querySelectorAll('.stat-number');
         statNumbers.forEach(stat => {
             const target = parseInt(stat.getAttribute('data-target'));
             const suffix = stat.getAttribute('data-suffix') || '';
-            const duration = 2000;
+            const duration = isMobile ? 1500 : 2000;
             const step = target / (duration / 16);
             let current = 0;
 
@@ -90,6 +101,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 16);
         });
+    }
+
+    // Use Intersection Observer for counters
+    if (statsSection) {
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        statsObserver.observe(statsSection);
     }
 
     // ========================================
@@ -107,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let selectedFinish = 'стандарт';
         let currentValue = 100;
 
-        // Price per m²
         const prices = {
             ' дом': 15000,
             ' квартира': 12000,
@@ -115,14 +138,12 @@ document.addEventListener('DOMContentLoaded', function() {
             ' ремонт': 8000
         };
 
-        // Finish multipliers
         const multipliers = {
             'эконом': 1,
             'стандарт': 1.5,
             'премиум': 2.5
         };
 
-        // Type selection
         typeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 typeOptions.forEach(opt => opt.classList.remove('active'));
@@ -132,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Finish selection
         finishOptions.forEach(option => {
             option.addEventListener('click', () => {
                 finishOptions.forEach(opt => opt.classList.remove('active'));
@@ -142,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Range slider
         if (rangeSlider && rangeValue) {
             rangeSlider.addEventListener('input', (e) => {
                 currentValue = parseInt(e.target.value);
@@ -160,9 +179,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Initialize
-        typeOptions[1].classList.add('active');
-        finishOptions[1].classList.add('active');
+        typeOptions[1]?.classList.add('active');
+        finishOptions[1]?.classList.add('active');
     }
 
     // ========================================
@@ -204,13 +222,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Auto-rotate reviews
+    // Auto-rotate with longer interval on mobile
     setInterval(() => {
         if (totalSlides > 1) {
             const nextSlide = currentSlide < totalSlides - 1 ? currentSlide + 1 : 0;
             goToSlide(nextSlide);
         }
-    }, 5000);
+    }, isMobile ? 8000 : 5000);
 
     // ========================================
     // 7. FORM SUBMISSION
@@ -252,131 +270,126 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ========================================
-    // GSAP ANIMATIONS
+    // ANIMATIONS - GSAP (desktop only) or Intersection Observer
     // ========================================
     function initAnimations() {
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
+        // Use GSAP only on desktop with library loaded
+        if (!isMobile && gsapAvailable) {
+            try {
+                gsap.registerPlugin(ScrollTrigger);
 
-            // Hero content animation
-            gsap.to('.hero-content', {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: 0.3,
-                ease: 'power3.out'
-            });
+                gsap.to('.hero-content', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    delay: 0.3,
+                    ease: 'power3.out'
+                });
 
-            // Stats animation
-            gsap.to('.stat-item', {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                stagger: 0.15,
-                scrollTrigger: {
-                    trigger: '.stats',
-                    start: 'top 80%'
-                }
-            });
+                gsap.to('.stat-item', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    scrollTrigger: {
+                        trigger: '.stats',
+                        start: 'top 80%'
+                    }
+                });
 
-            // Services animation
-            gsap.to('.service-card', {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                stagger: 0.1,
-                scrollTrigger: {
-                    trigger: '.services',
-                    start: 'top 75%'
-                }
-            });
+                gsap.to('.service-card', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: '.services',
+                        start: 'top 75%'
+                    }
+                });
 
-            // Calculator animation
-            gsap.to('.calc-step', {
-                opacity: 1,
-                x: 0,
-                duration: 0.5,
-                stagger: 0.15,
-                scrollTrigger: {
-                    trigger: '.calculator',
-                    start: 'top 75%'
-                }
-            });
+                gsap.to('.calc-step', {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.5,
+                    stagger: 0.15,
+                    scrollTrigger: {
+                        trigger: '.calculator',
+                        start: 'top 75%'
+                    }
+                });
 
-            // Portfolio animation
-            gsap.to('.portfolio-item', {
-                opacity: 1,
-                scale: 1,
-                duration: 0.6,
-                stagger: 0.1,
-                scrollTrigger: {
-                    trigger: '.portfolio',
-                    start: 'top 75%'
-                }
-            });
+                gsap.to('.portfolio-item', {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: '.portfolio',
+                        start: 'top 75%'
+                    }
+                });
 
-            // Advantages animation
-            gsap.to('.advantage-card', {
-                opacity: 1,
-                y: 0,
-                duration: 0.5,
-                stagger: 0.1,
-                scrollTrigger: {
-                    trigger: '.advantages',
-                    start: 'top 75%'
-                }
-            });
+                gsap.to('.advantage-card', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: '.advantages',
+                        start: 'top 75%'
+                    }
+                });
 
-            // Stats counter on scroll
-            ScrollTrigger.create({
-                trigger: '.stats',
-                start: 'top 80%',
-                onEnter: () => {
-                    animateCounters();
-                },
-                once: true
-            });
-
-            // Section headers animation
-            gsap.to('.section-header', {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                scrollTrigger: {
-                    trigger: '.section-header',
-                    start: 'top 80%'
-                }
-            });
+                gsap.to('.section-header', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: '.section-header',
+                        start: 'top 80%'
+                    }
+                });
+            } catch (e) {
+                // GSAP error, fallback to Intersection Observer
+                initIntersectionObserverFallback();
+            }
         } else {
-            // Fallback: show elements without GSAP
-            document.querySelectorAll('.fade-up').forEach(el => {
-                el.classList.add('visible');
-            });
+            // Mobile or no GSAP - use simple CSS + Intersection Observer
+            initIntersectionObserverFallback();
         }
     }
 
-    // Fallback scroll animations
-    const fadeElements = document.querySelectorAll('.stat-item, .service-card, .calc-step, .portfolio-item, .advantage-card, .section-header');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
+    function initIntersectionObserverFallback() {
+        // Show hero content immediately on mobile
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent) {
+            heroContent.style.opacity = '1';
+            heroContent.style.transform = 'translateY(0)';
+        }
+
+        // Use Intersection Observer for scroll animations
+        const fadeElements = document.querySelectorAll('.stat-item, .service-card, .calc-step, .portfolio-item, .advantage-card, .section-header');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        fadeElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = isMobile ? 'opacity 0.4s ease, transform 0.4s ease' : 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
         });
-    }, { threshold: 0.1 });
+    }
 
-    fadeElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-});
-
-// Mobile call button click
-document.addEventListener('DOMContentLoaded', function() {
+    // Mobile call button
     const mobileCallBtn = document.querySelector('.mobile-call-btn');
     if (mobileCallBtn) {
         mobileCallBtn.addEventListener('click', () => {
