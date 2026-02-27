@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спасибо за заявку | АСБ РУМ ПРО</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1a1a1a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .container { max-width: 600px; }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #c9a962;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #c9a962;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #d4af37;
+            transform: translateY(-2px);
+        }
+        .timer {
+            margin-top: 2rem;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">АСБ РУМ ПРО</div>
+        <h1>Спасибо за заявку!</h1>
+        <p>Мы получили ваше сообщение и свяжемся с вами в течение 30 минут. Если вопрос срочный — позвоните нам напрямую.</p>
+        <a href="index.html" class="btn">Вернуться на главную</a>
+        <p class="timer">Автоматический переход через <span id="countdown">5</span> секунд</p>
+    </div>
+    
+    <script>
+        let seconds = 5;
+        const countdown = document.getElementById('countdown');
+        
+        setInterval(() => {
+            seconds--;
+            countdown.textContent = seconds;
+            if (seconds <= 0) {
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
