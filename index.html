@@ -5,1676 +5,434 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АСБ РУМ ПРО | Архитектура, строительство, дизайн</title>
     <meta name="description" content="Строительная компания полного цикла. Проектирование, строительство, дизайн интерьера. Уфа, Москва, Казань.">
-    <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1a1a1a;
-            --secondary: #c9a962;
-            --accent: #d4af37;
-            --light: #f5f5f5;
-            --dark: #0a0a0a;
-            --gray: #666;
-            --transition: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--light);
-            color: var(--primary);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--light);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--secondary);
-            border-radius: 4px;
-        }
-
-        /* Preloader */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s var(--transition), visibility 0.8s;
-        }
-
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .preloader-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--secondary);
-            letter-spacing: 0.3em;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.4s var(--transition);
-            background: transparent;
-        }
-
-        nav.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 1rem 5%;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
-        }
-
-        nav.scrolled .logo,
-        nav.scrolled .nav-links a {
-            color: var(--primary);
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: white;
-            text-decoration: none;
-            letter-spacing: 0.1em;
-            transition: color 0.3s;
-        }
-
-        .logo span {
-            color: var(--secondary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--secondary);
-            transition: width 0.3s var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .mobile-menu span {
-            width: 25px;
-            height: 2px;
-            background: white;
-            transition: all 0.3s;
-        }
-
-        nav.scrolled .mobile-menu span {
-            background: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://kimi-web-img.moonshot.cn/img/www.contemporist.com/89b9ffc4b9481d3ae7db9f0f22946197a71dfb69.jpg') center/cover;
-            z-index: -2;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
-            z-index: -1;
-        }
-
-        .hero-content {
-            text-align: center;
-            color: white;
-            max-width: 900px;
-            padding: 0 2rem;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .hero-subtitle {
-            font-size: 0.9rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-            font-weight: 500;
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 600;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-            font-weight: 300;
-            line-height: 1.8;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            text-decoration: none;
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            font-weight: 600;
-            transition: all 0.4s var(--transition);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: var(--secondary);
-            color: var(--dark);
-        }
-
-        .btn-primary:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(201, 169, 98, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .btn-outline:hover {
-            background: white;
-            color: var(--dark);
-            border-color: white;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            opacity: 0.6;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            background: var(--dark);
-            padding: 3rem 5%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .stat-item {
-            text-align: center;
-            color: white;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            color: var(--secondary);
-            font-weight: 600;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            opacity: 0.8;
-        }
-
-        /* Services Section */
-        .services {
-            padding: 8rem 5%;
-            background: var(--light);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .section-subtitle {
-            color: var(--secondary);
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .section-description {
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: white;
-            padding: 3rem 2rem;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.4s var(--transition);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--secondary);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s var(--transition);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-        }
-
-        .service-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .service-description {
-            color: var(--gray);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        .service-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            transition: gap 0.3s;
-        }
-
-        .service-link:hover {
-            gap: 1rem;
-        }
-
-        /* Portfolio Section */
-        .portfolio {
-            padding: 8rem 5%;
-            background: var(--dark);
-            color: white;
-        }
-
-        .portfolio .section-title {
-            color: white;
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .portfolio-item {
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
-        .portfolio-item.large {
-            grid-column: span 7;
-            grid-row: span 2;
-            height: 600px;
-        }
-
-        .portfolio-item.medium {
-            grid-column: span 5;
-            height: 290px;
-        }
-
-        .portfolio-item.small {
-            grid-column: span 4;
-            height: 350px;
-        }
-
-        .portfolio-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s var(--transition);
-        }
-
-        .portfolio-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .portfolio-item:hover .portfolio-overlay {
-            opacity: 1;
-        }
-
-        .portfolio-item:hover .portfolio-img {
-            transform: scale(1.1);
-        }
-
-        .portfolio-category {
-            color: var(--secondary);
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .portfolio-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-
-        /* Process Section */
-        .process {
-            padding: 8rem 5%;
-            background: white;
-        }
-
-        .process-steps {
-            display: flex;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 5rem auto 0;
-            position: relative;
-        }
-
-        .process-steps::before {
-            content: '';
-            position: absolute;
-            top: 50px;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: linear-gradient(to right, var(--secondary), transparent);
-            z-index: 0;
-        }
-
-        .process-step {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            flex: 1;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .step-number {
-            width: 100px;
-            height: 100px;
-            background: white;
-            border: 2px solid var(--secondary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            color: var(--secondary);
-            margin: 0 auto 1.5rem;
-            font-weight: 600;
-            position: relative;
-            transition: all 0.4s;
-        }
-
-        .process-step:hover .step-number {
-            background: var(--secondary);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .step-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .step-description {
-            color: var(--gray);
-            font-size: 0.9rem;
-            max-width: 200px;
-            margin: 0 auto;
-        }
-
-        /* About Section */
-        .about {
-            padding: 8rem 5%;
-            background: var(--light);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .about-images {
-            position: relative;
-            height: 600px;
-        }
-
-        .about-img-main {
-            width: 80%;
-            height: 80%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .about-img-secondary {
-            width: 50%;
-            height: 40%;
-            object-fit: cover;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            border: 10px solid var(--light);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .about-content {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-
-        .about-text {
-            color: var(--gray);
-            margin: 2rem 0;
-            font-size: 1.05rem;
-            line-height: 1.9;
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .about-feature {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .feature-icon {
-            color: var(--secondary);
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .feature-text h4 {
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 0.3rem;
-            color: var(--primary);
-        }
-
-        .feature-text p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            padding: 8rem 5%;
-            background: var(--dark);
-            color: white;
-            text-align: center;
-        }
-
-        .testimonials-slider {
-            max-width: 800px;
-            margin: 4rem auto 0;
-            position: relative;
-        }
-
-        .testimonial-item {
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            transition: opacity 0.6s;
-        }
-
-        .testimonial-item.active {
-            opacity: 1;
-            position: relative;
-        }
-
-        .testimonial-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            color: var(--secondary);
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        .testimonial-nav {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 3rem;
-        }
-
-        .testimonial-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .testimonial-dot.active {
-            background: var(--secondary);
-            transform: scale(1.3);
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 8rem 5%;
-            background: white;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .contact-info h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-details {
-            margin-top: 3rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--secondary);
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .contact-text h4 {
-            margin-bottom: 0.3rem;
-            color: var(--primary);
-        }
-
-        .contact-text a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .contact-text a:hover {
-            color: var(--secondary);
-        }
-
-        .contact-form {
-            background: var(--light);
-            padding: 3rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            background: white;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 4rem 5% 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 4rem;
-            max-width: 1400px;
-            margin: 0 auto 4rem;
-        }
-
-        .footer-brand .logo {
-            margin-bottom: 1.5rem;
-            display: inline-block;
-        }
-
-        .footer-text {
-            color: rgba(255,255,255,0.6);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background: var(--secondary);
-            border-color: var(--secondary);
-            color: var(--dark);
-        }
-
-        .footer-column h4 {
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .footer-links a:hover {
-            color: var(--secondary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 2rem;
-            text-align: center;
-            color: rgba(255,255,255,0.4);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .portfolio-item.large,
-            .portfolio-item.medium,
-            .portfolio-item.small {
-                grid-column: span 6;
-                height: 300px;
-            }
-            
-            .about,
-            .contact {
-                grid-template-columns: 1fr;
-            }
-            
-            .about-images {
-                height: 400px;
-                order: -1;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 100%;
-                height: 100vh;
-                background: var(--dark);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                transition: right 0.4s var(--transition);
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links a {
-                font-size: 1.5rem;
-                color: white;
-            }
-            
-            .mobile-menu {
-                display: flex;
-            }
-            
-            .stats-bar {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .process-steps {
-                flex-direction: column;
-                gap: 3rem;
-            }
-            
-            .process-steps::before {
-                display: none;
-            }
-            
-            .portfolio-item.large,
-            .portfolio-item.medium,
-            .portfolio-item.small {
-                grid-column: span 12;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            .social-links {
-                justify-content: center;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s var(--transition);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    
+    <!-- Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="src/css/main.css">
 </head>
 <body>
-    <!-- Preloader -->
-    <div class="preloader" id="preloader">
-        <div class="preloader-text">АСБ РУМ ПРО</div>
+    <!-- 1. PRELOADER -->
+    <div class="preloader">
+        <div class="preloader-logo">АСБ РУМ ПРО</div>
     </div>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <a href="#" class="logo">АСБ <span>РУМ ПРО</span></a>
-        <ul class="nav-links" id="navLinks">
+    <!-- 2. NAVIGATION -->
+    <nav class="nav">
+        <a href="#" class="nav-logo">АСБ <span>РУМ</span> ПРО</a>
+        <ul class="nav-links">
             <li><a href="#services">Услуги</a></li>
             <li><a href="#portfolio">Портфолио</a></li>
-            <li><a href="#process">Процесс</a></li>
             <li><a href="#about">О нас</a></li>
             <li><a href="#contact">Контакты</a></li>
         </ul>
-        <div class="mobile-menu" id="mobileMenu">
+        <a href="tel:+79013801305" class="nav-phone">+7 (901) 380-13-05</a>
+        <div class="mobile-menu-btn">
             <span></span>
             <span></span>
             <span></span>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Mobile Call Button -->
+    <a href="tel:+79013801305" class="mobile-call-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+        </svg>
+    </a>
+
+    <!-- 3. HERO -->
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
-        <div class="hero-content" id="heroContent">
-            <p class="hero-subtitle">Архитектура • Строительство • Дизайн</p>
-            <h1 class="hero-title">Создаём пространства,<br>в которых хочется жить</h1>
-            <p class="hero-description">От эскиза до сдачи под ключ. Индивидуальное проектирование, строительство коттеджей, ремонт квартир и коммерческая недвижимость в Уфе, Москве и Казани.</p>
+        <div class="hero-content">
+            <p class="hero-subtitle">Строительная компания</p>
+            <h1 class="hero-title">Создаём пространства, в которых хочется жить</h1>
+            <p class="hero-description">Архитектура, строительство, дизайн интерьера. От эскиза до сдачи под ключ.</p>
             <div class="hero-cta">
-                <a href="#contact" class="btn btn-primary">Обсудить проект</a>
+                <a href="#calculator" class="btn btn-primary">Рассчитать стоимость</a>
                 <a href="#portfolio" class="btn btn-outline">Смотреть работы</a>
             </div>
         </div>
         <div class="scroll-indicator">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <span>SCROLL</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 5v14M19 12l-7 7-7-7"/>
             </svg>
         </div>
     </section>
 
-    <!-- Stats Bar -->
-    <section class="stats-bar">
-        <div class="stat-item">
-            <span class="stat-number" data-target="150">0</span>
-            <span class="stat-label">Реализованных проектов</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number" data-target="12">0</span>
-            <span class="stat-label">Лет опыта</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number" data-target="35">0</span>
-            <span class="stat-label">Тыс. м² построено</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number" data-target="98">0</span>
-            <span class="stat-label">% довольных клиентов</span>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="section-header">
-            <span class="section-subtitle">Наши услуги</span>
-            <h2 class="section-title">Комплексный подход<br>к созданию пространств</h2>
-            <p class="section-description">От архитектурной концепции до финальной отделки — берём на себя все этапы работы</p>
-        </div>
-        
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">✦</div>
-                <h3 class="service-title">Архитектурное проектирование</h3>
-                <p class="service-description">Индивидуальные проекты жилых домов, коттеджей, гаражей и бань. Полный пакет документации для строительства.</p>
-                <a href="#contact" class="service-link">Подробнее →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">◈</div>
-                <h3 class="service-title">Строительство под ключ</h3>
-                <p class="service-description">Возведение малоэтажных домов любой сложности. Работаем по договору с фиксированными сроками и ценами.</p>
-                <a href="#contact" class="service-link">Подробнее →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">◉</div>
-                <h3 class="service-title">Дизайн интерьеров</h3>
-                <p class="service-description">Разработка концепции, 3D-визуализация, подбор материалов и мебели. От скандинавского стиля до хай-тека.</p>
-                <a href="#contact" class="service-link">Подробнее →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">▣</div>
-                <h3 class="service-title">Ремонт квартир</h3>
-                <p class="service-description">Капитальный ремонт и отделка квартир под ключ. Работаем в новостройках и вторичном фонде.</p>
-                <a href="#contact" class="service-link">Подробнее →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">◆</div>
-                <h3 class="service-title">Коммерческая недвижимость</h3>
-                <p class="service-description">Проектирование и строительство офисов, магазинов, ресторанов. Участие в тендерах.</p>
-                <a href="#contact" class="service-link">Подробнее →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">❖</div>
-                <h3 class="service-title">Отделка многоэтажек</h3>
-                <p class="service-description">Внутренняя отделка подъездов, холлов и общих зон в многоквартирных домах. Опыт работы с крупными застройщиками.</p>
-                <a href="#contact" class="service-link">Подробнее →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="portfolio" id="portfolio">
-        <div class="section-header">
-            <span class="section-subtitle">Портфолио</span>
-            <h2 class="section-title">Реализованные проекты</h2>
-            <p class="section-description" style="color: rgba(255,255,255,0.7);">Каждый проект — это уникальная история создания пространства</p>
-        </div>
-        
-        <div class="portfolio-grid">
-            <div class="portfolio-item large">
-                <img src="https://kimi-web-img.moonshot.cn/img/cdn.shopify.com/785e75761626046e18ef1fba7542b7dd2db6df98.jpg" alt="Скандинавский дом" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <span class="portfolio-category">Интерьер</span>
-                    <h3 class="portfolio-title">Скандинавская спальня</h3>
+    <!-- 4. STATS -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="150" data-suffix="+">0</span>
+                    <span class="stat-label">Реализованных проектов</span>
                 </div>
-            </div>
-            
-            <div class="portfolio-item medium">
-                <img src="https://kimi-web-img.moonshot.cn/img/covetlighting.com/a873c8adf644f97c3e169b22418659a26a2d3d10.jpg" alt="Кухня" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <span class="portfolio-category">Кухня</span>
-                    <h3 class="portfolio-title">Мрамор и золото</h3>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="12" data-suffix="">0</span>
+                    <span class="stat-label">Лет опыта</span>
                 </div>
-            </div>
-            
-            <div class="portfolio-item medium">
-                <img src="https://kimi-web-img.moonshot.cn/img/www.decorilla.com/729e9d3893c407194607636ce9d0c1a5b5edee9d.jpg" alt="Гостиная" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <span class="portfolio-category">Гостиная</span>
-                    <h3 class="portfolio-title">Современная классика</h3>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="35" data-suffix=" 000 м²">0</span>
+                    <span class="stat-label">Построено</span>
                 </div>
-            </div>
-            
-            <div class="portfolio-item small">
-                <img src="https://kimi-web-img.moonshot.cn/img/archello.s3.eu-central-1.amazonaws.com/f177b86414b4f4c537da306bc0cd96cea7033ea0.jpg" alt="Пентхаус" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <span class="portfolio-category">Пентхаус</span>
-                    <h3 class="portfolio-title">Luxury Penthouse</h3>
-                </div>
-            </div>
-            
-            <div class="portfolio-item small">
-                <img src="https://kimi-web-img.moonshot.cn/img/design-milk.com/be6ef023e025dfb6b0b39b3cad3d9598fe025986.jpg" alt="Бетонный дом" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <span class="portfolio-category">Архитектура</span>
-                    <h3 class="portfolio-title">Бетон и стекло</h3>
-                </div>
-            </div>
-            
-            <div class="portfolio-item small">
-                <img src="https://kimi-web-img.moonshot.cn/img/www.realestate.com.au/ee11f8aba02b53d08adc7aa670406c3966c0fa18.jpg" alt="Пентхаус с видом" class="portfolio-img">
-                <div class="portfolio-overlay">
-                    <span class="portfolio-category">Пентхаус</span>
-                    <h3 class="portfolio-title">Панорамные окна</h3>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="98" data-suffix="%">0</span>
+                    <span class="stat-label">Довольных клиентов</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Process Section -->
-    <section class="process" id="process">
-        <div class="section-header">
-            <span class="section-subtitle">Как мы работаем</span>
-            <h2 class="section-title">Прозрачный процесс<br>от идеи до результата</h2>
-        </div>
-        
-        <div class="process-steps">
-            <div class="process-step">
-                <div class="step-number">01</div>
-                <h3 class="step-title">Консультация</h3>
-                <p class="step-description">Встреча, обсуждение задач, бюджета и сроков. Бесплатный выезд на объект.</p>
+    <!-- 5. SERVICES -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Наши услуги</span>
+                <h2 class="section-title">Комплексные решения для вашего дома</h2>
             </div>
-            
-            <div class="process-step">
-                <div class="step-number">02</div>
-                <h3 class="step-title">Проектирование</h3>
-                <p class="step-description">Разработка концепции, 3D-визуализация, подготовка рабочей документации.</p>
-            </div>
-            
-            <div class="process-step">
-                <div class="step-number">03</div>
-                <h3 class="step-title">Смета и договор</h3>
-                <p class="step-description">Детальная смета с фиксированной ценой. Прозрачные условия в договоре.</p>
-            </div>
-            
-            <div class="process-step">
-                <div class="step-number">04</div>
-                <h3 class="step-title">Строительство</h3>
-                <p class="step-description">Реализация проекта с фотоотчётами на каждом этапе. Контроль качества.</p>
-            </div>
-            
-            <div class="process-step">
-                <div class="step-number">05</div>
-                <h3 class="step-title">Сдача объекта</h3>
-                <p class="step-description">Финальная приёмка, устранение замечаний, гарантийное обслуживание.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="about-images">
-            <img src="https://kimi-web-img.moonshot.cn/img/theprobuiltcompany.com/6dcb214d91704378bec69bf61c6e56dc80ad6977.jpg" alt="Строительство" class="about-img-main">
-            <img src="https://kimi-web-img.moonshot.cn/img/laynekellyhomes.com/fd3896cf543379ebcf6554e7467b783e941d0807.jpg" alt="Процесс строительства" class="about-img-secondary">
-        </div>
-        
-        <div class="about-content">
-            <span class="section-subtitle">О компании</span>
-            <h2 class="section-title">АСБ РУМ ПРО</h2>
-            <p class="about-text">
-                Архитектурно-строительная компания полного цикла. Мы объединяем архитектурное проектирование, строительство и дизайн интерьера под одним руководством.
-            </p>
-            <p class="about-text">
-                Основатель — архитектор с опытом работы с 2007 года. За плечами проекты от небольших бань до многоэтажных жилых комплексов. Работаем с частными клиентами, застройщиками и участвуем в муниципальных тендерах.
-            </p>
-            
-            <div class="about-features">
-                <div class="about-feature">
-                    <div class="feature-icon">✓</div>
-                    <div class="feature-text">
-                        <h4>Собственная бригада</h4>
-                        <p>Проверенные специалисты, без посредников</p>
-                    </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3 class="service-title">Архитектурное проектирование</h3>
+                    <p class="service-description">Разработка архитектурных решений, планировок и конструктивных схем для жилых и коммерческих объектов.</p>
+                    <a href="#" class="service-link">Подробнее →</a>
                 </div>
-                
-                <div class="about-feature">
-                    <div class="feature-icon">✓</div>
-                    <div class="feature-text">
-                        <h4>Гарантия 5 лет</h4>
-                        <p>На все виды строительных работ</p>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3 class="service-title">Строительство под ключ</h3>
+                    <p class="service-description">Возведение домов от фундамента до кровли. Полный цикл строительных работ с гарантией качества.</p>
+                    <a href="#" class="service-link">Подробнее →</a>
                 </div>
-                
-                <div class="about-feature">
-                    <div class="feature-icon">✓</div>
-                    <div class="feature-text">
-                        <h4>Фиксированная цена</h4>
-                        <p>Без скрытых платежей и дополнительных работ</p>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3 class="service-title">Дизайн интерьера</h3>
+                    <p class="service-description">Создание уникальных интерьеров. 3D-визуализация, подбор материалов и авторский надзор.</p>
+                    <a href="#" class="service-link">Подробнее →</a>
                 </div>
-                
-                <div class="about-feature">
-                    <div class="feature-icon">✓</div>
-                    <div class="feature-text">
-                        <h4>Работаем по всей России</h4>
-                        <p>Уфа, Москва, Казань и другие регионы</p>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon">🖌️</div>
+                    <h3 class="service-title">Ремонт квартир</h3>
+                    <p class="service-description">Качественный ремонт любой сложности — от косметического до элитного с перепланировкой.</p>
+                    <a href="#" class="service-link">Подробнее →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3 class="service-title">Коммерческая недвижимость</h3>
+                    <p class="service-description">Строительство и ремонт офисов, магазинов, ресторанов и других коммерческих объектов.</p>
+                    <a href="#" class="service-link">Подробнее →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏬</div>
+                    <h3 class="service-title">Отделка многоэтажек</h3>
+                    <p class="service-description">Фасадные работы, отделка общественных зон, благоустройство придомовых территорий.</p>
+                    <a href="#" class="service-link">Подробнее →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div class="section-header">
-            <span class="section-subtitle">Отзывы клиентов</span>
-            <h2 class="section-title">Что говорят о нас</h2>
-        </div>
-        
-        <div class="testimonials-slider">
-            <div class="testimonial-item active">
-                <p class="testimonial-text">"Профессиональный подход на каждом этапе. Дом построен точно в срок, без нареканий по качеству. Особенно понравился дизайн-проект интерьера — всё продумано до мелочей."</p>
-                <p class="testimonial-author">— Семья Ивановых, коттедж 280 м²</p>
+    <!-- 6. CALCULATOR -->
+    <section id="calculator" class="calculator">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Калькулятор</span>
+                <h2 class="section-title">Рассчитайте стоимость за 1 минуту</h2>
             </div>
-            
-            <div class="testimonial-item">
-                <p class="testimonial-text">"Ремонт квартиры под ключ занял 3 месяца вместо заявленных 4. Качество отделки превзошло ожидания. Рекомендую как надёжного подрядчика."</p>
-                <p class="testimonial-author">— ООО "СтройИнвест", отделка 45 квартир</p>
-            </div>
-            
-            <div class="testimonial-item">
-                <p class="testimonial-text">"Участвовали в тендере на отделку МКД. АСБ РУМ ПРО предложили лучшее соотношение цены и качества. Работа выполнена без нареканий, в срок."</p>
-                <p class="testimonial-author">— УК "Аристократ", г. Уфа</p>
-            </div>
-            
-            <div class="testimonial-nav">
-                <div class="testimonial-dot active" onclick="showTestimonial(0)"></div>
-                <div class="testimonial-dot" onclick="showTestimonial(1)"></div>
-                <div class="testimonial-dot" onclick="showTestimonial(2)"></div>
+            <div class="calculator-wrapper">
+                <div class="calculator-steps">
+                    <!-- Step 1: Type -->
+                    <div class="calc-step">
+                        <span class="calc-step-label">1. Выберите тип объекта</span>
+                        <div class="calc-options">
+                            <div class="calc-option" data-type=" дом">Дом</div>
+                            <div class="calc-option" data-type=" квартира">Квартира</div>
+                            <div class="calc-option" data-type=" коммерция">Коммерция</div>
+                            <div class="calc-option" data-type=" ремонт">Ремонт</div>
+                        </div>
+                    </div>
+                    <!-- Step 2: Area -->
+                    <div class="calc-step">
+                        <span class="calc-step-label">2. Укажите площадь</span>
+                        <div class="range-wrapper">
+                            <div class="range-value">100 м²</div>
+                            <input type="range" class="range-slider" min="20" max="500" value="100">
+                            <div class="range-labels">
+                                <span>20 м²</span>
+                                <span>500 м²</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 3: Finish -->
+                    <div class="calc-step">
+                        <span class="calc-step-label">3. Выберите тип отделки</span>
+                        <div class="calc-options">
+                            <div class="calc-option" data-finish="эконом">Эконом</div>
+                            <div class="calc-option" data-finish="стандарт">Стандарт</div>
+                            <div class="calc-option" data-finish="премиум">Премиум</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Result -->
+                <div class="calc-result">
+                    <p class="calc-result-label">Примерная стоимость</p>
+                    <p class="calc-result-value">1 800 000 ₽</p>
+                    <p class="calc-result-note">Точный расчёт после замера и составления сметы</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="contact-info">
-            <span class="section-subtitle">Контакты</span>
-            <h2 class="section-title">Начните проект<br>прямо сейчас</h2>
-            <p style="color: var(--gray); margin: 1.5rem 0; line-height: 1.8;">
-                Оставьте заявку на бесплатную консультацию. Мы свяжемся с вами в течение 24 часов, обсудим задачу и предложим оптимальное решение.
-            </p>
-            
-            <div class="contact-details">
-                <div class="contact-item">
-                    <div class="contact-icon">📞</div>
-                    <div class="contact-text">
-                        <h4>Телефон</h4>
-                        <a href="tel:+79677397117">+7 (967) 739-71-17</a>
+    <!-- 7. PORTFOLIO -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Портфолио</span>
+                <h2 class="section-title">Реализованные проекты</h2>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item large">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Проект 1" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-category">Строительство</span>
+                        <h3 class="portfolio-title">Жилой дом в Подмосковье</h3>
                     </div>
                 </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">✉</div>
-                    <div class="contact-text">
-                        <h4>Email</h4>
-                        <a href="mailto:info@asb-roompro.ru">info@asb-roompro.ru</a>
+                <div class="portfolio-item medium">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Проект 2" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-category">Дизайн</span>
+                        <h3 class="portfolio-title">Квартира в ЖК "Сити"</h3>
                     </div>
                 </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <div class="contact-text">
-                        <h4>Адрес</h4>
-                        <p>г. Уфа, ул. Примерная, 123<br>Офисы в Москве и Казани</p>
+                <div class="portfolio-item medium">
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80" alt="Проект 3" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-category">Ремонт</span>
+                        <h3 class="portfolio-title">Евроремонт квартиры</h3>
                     </div>
                 </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">🕐</div>
-                    <div class="contact-text">
-                        <h4>Режим работы</h4>
-                        <p>Пн-Пт: 9:00 - 19:00<br>Сб: 10:00 - 16:00</p>
+                <div class="portfolio-item small">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80" alt="Проект 4" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-category">Строительство</span>
+                        <h3 class="portfolio-title">Коттедж</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item small">
+                    <img src="https://images.unsplash.com/photo-1600573472591-ee6c563aaec9?w=400&q=80" alt="Проект 5" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-category">Коммерция</span>
+                        <h3 class="portfolio-title">Офисный центр</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item small">
+                    <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=80" alt="Проект 6" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-category">Дизайн</span>
+                        <h3 class="portfolio-title">Пентхаус</h3>
                     </div>
                 </div>
             </div>
+            <div class="portfolio-all">
+                <a href="#" class="btn btn-outline">Все проекты</a>
+            </div>
         </div>
-        
-        <div class="contact-form">
-            <form id="contactForm">
-                <div class="form-row">
+    </section>
+
+    <!-- 8. ADVANTAGES -->
+    <section id="about" class="advantages">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Почему выбирают нас</span>
+                <h2 class="section-title">Наши преимущества</h2>
+            </div>
+            <div class="advantages-grid">
+                <div class="advantage-card">
+                    <div class="advantage-icon">🛡️</div>
+                    <h3 class="advantage-title">Гарантия 5 лет</h3>
+                    <p class="advantage-text">Даём официальную гарантию на все выполненные работы</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">📄</div>
+                    <h3 class="advantage-title">Фиксированная цена</h3>
+                    <p class="advantage-text">Стоимость закрепляется в договоре и не меняется</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">👷</div>
+                    <h3 class="advantage-title">Собственная бригада</h3>
+                    <p class="advantage-text">Работаем без посредников, только проверенные мастера</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">📅</div>
+                    <h3 class="advantage-title">Сроки в договоре</h3>
+                    <p class="advantage-text">Чётко соблюдаем оговоренные сроки выполнения</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. REVIEWS -->
+    <section class="reviews">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Отзывы</span>
+                <h2 class="section-title">Что говорят клиенты</h2>
+            </div>
+            <div class="reviews-slider">
+                <div class="reviews-track">
+                    <div class="review-item">
+                        <p class="review-text">"Профессиональный подход на каждом этапе строительства. Ребята учли все наши пожелания, дом получился именно таким, как мы мечтали. Рекомендую!"</p>
+                        <p class="review-author">Семья Ивановых</p>
+                        <p class="review-type">Строительство дома, 2024</p>
+                    </div>
+                    <div class="review-item">
+                        <p class="review-text">"Ремонт занял 3 месяца вместо 4, как планировали. Качество на высоте, всё сделали аккуратно и в срок. Отдельное спасибо за дизайн-проект!"</p>
+                        <p class="review-author">ООО "СтройИнвест"</p>
+                        <p class="review-type">Ремонт офиса, 2024</p>
+                    </div>
+                    <div class="review-item">
+                        <p class="review-text">"Участвовали в тендере на отделку ЖК — выиграли благодаря АСБ РУМ ПРО. Профессиональная команда, современные технологии, отличный результат."</p>
+                        <p class="review-author">УК "Аристократ"</p>
+                        <p class="review-type">Отделка МКД, 2024</p>
+                    </div>
+                </div>
+                <div class="reviews-nav">
+                    <button class="review-arrow" data-direction="prev">
+                        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                    </button>
+                    <div class="reviews-dots">
+                        <span class="review-dot active"></span>
+                        <span class="review-dot"></span>
+                        <span class="review-dot"></span>
+                    </div>
+                    <button class="review-arrow" data-direction="next">
+                        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. CONTACT -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Свяжитесь с нами</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div class="contact-text">
+                                <h4>Телефон</h4>
+                                <a href="tel:+79013801305">+7 (901) 380-13-05</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💬</div>
+                            <div class="contact-text">
+                                <h4>WhatsApp</h4>
+                                <a href="https://wa.me/79013801305" target="_blank">Написать в WhatsApp</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-text">
+                                <h4>VK</h4>
+                                <a href="https://vk.com/robert_gareev" target="_blank">vk.com/robert_gareev</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div class="contact-text">
+                                <h4>Email</h4>
+                                <a href="mailto:genrishiford@gmail.com">genrishiford@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-text">
+                                <h4>Офисы</h4>
+                                <p>Уфа, Москва, Казань</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/mlgwvgkv" method="POST">
                     <div class="form-group">
-                        <label>Ваше имя</label>
-                        <input type="text" placeholder="Иван Иванов" required>
+                        <input type="text" name="name" placeholder="Ваше имя" required>
                     </div>
                     <div class="form-group">
-                        <label>Телефон</label>
-                        <input type="tel" placeholder="+7 (___) ___-__-__" required>
+                        <input type="tel" name="phone" placeholder="Телефон" required>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Тип проекта</label>
-                    <select required>
-                        <option value="">Выберите тип проекта</option>
-                        <option value="house">Строительство дома</option>
-                        <option value="repair">Ремонт квартиры</option>
-                        <option value="design">Дизайн интерьера</option>
-                        <option value="commercial">Коммерческий объект</option>
-                        <option value="tender">Участие в тендере</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Описание проекта</label>
-                    <textarea placeholder="Расскажите кратко о вашем проекте: площадь, бюджет, сроки..."></textarea>
-                </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Отправить заявку</button>
-            </form>
+                    <div class="form-group">
+                        <select name="project_type" required>
+                            <option value="">Тип проекта</option>
+                            <option value="Строительство дома">Строительство дома</option>
+                            <option value="Ремонт квартиры">Ремонт квартиры</option>
+                            <option value="Дизайн интерьера">Дизайн интерьера</option>
+                            <option value="Коммерческий объект">Коммерческий объект</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Описание проекта"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить заявку</button>
+                </form>
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- 11. FOOTER -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <a href="#" class="logo">АСБ <span>РУМ ПРО</span></a>
-                <p class="footer-text">
-                    Архитектурно-строительная компания полного цикла. Создаём пространства, в которых хочется жить и работать.
-                </p>
-                <div class="social-links">
-                    <a href="#">IG</a>
-                    <a href="#">TG</a>
-                    <a href="#">VK</a>
-                    <a href="#">WA</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="nav-logo">АСБ <span>РУМ</span> ПРО</a>
+                    <p class="footer-text">Строительная компания полного цикла. Архитектура, строительство, дизайн интерьера. От эскиза до сдачи под ключ.</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/robert_gareev" target="_blank" aria-label="VK">VK</a>
+                        <a href="https://wa.me/79013801305" target="_blank" aria-label="WhatsApp">WA</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#portfolio">Портфолио</a></li>
+                        <li><a href="#about">О нас</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Услуги</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Проектирование</a></li>
+                        <li><a href="#">Строительство</a></li>
+                        <li><a href="#">Ремонт</a></li>
+                        <li><a href="#">Дизайн</a></li>
+                    </ul>
                 </div>
             </div>
-            
-            <div class="footer-column">
-                <h4>Услуги</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Архитектура</a></li>
-                    <li><a href="#">Строительство</a></li>
-                    <li><a href="#">Дизайн интерьера</a></li>
-                    <li><a href="#">Ремонт</a></li>
-                </ul>
+            <div class="footer-bottom">
+                <p>© 2024 АСБ РУМ ПРО. Все права защищены.</p>
             </div>
-            
-            <div class="footer-column">
-                <h4>Компания</h4>
-                <ul class="footer-links">
-                    <li><a href="#">О нас</a></li>
-                    <li><a href="#">Портфолио</a></li>
-                    <li><a href="#">Отзывы</a></li>
-                    <li><a href="#">Контакты</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Регионы</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Уфа</a></li>
-                    <li><a href="#">Москва</a></li>
-                    <li><a href="#">Казань</a></li>
-                    <li><a href="#">Другие города</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 АСБ РУМ ПРО. Все права защищены. | <a href="#" style="color: inherit;">Политика конфиденциальности</a></p>
         </div>
     </footer>
 
-    <script>
-        // Preloader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-                // Animate hero content
-                gsap.to('#heroContent', {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1.2,
-                    ease: 'power3.out',
-                    delay: 0.3
-                });
-            }, 1500);
-        });
-
-        // Navigation scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile menu
-        const mobileMenu = document.getElementById('mobileMenu');
-        const navLinks = document.getElementById('navLinks');
-        
-        mobileMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Close mobile menu on link click
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Stats counter animation
-        const stats = document.querySelectorAll('.stat-number');
-        stats.forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-target'));
-            
-            ScrollTrigger.create({
-                trigger: stat,
-                start: 'top 80%',
-                onEnter: () => {
-                    gsap.to(stat, {
-                        innerHTML: target,
-                        duration: 2,
-                        snap: { innerHTML: 1 },
-                        ease: 'power2.out'
-                    });
-                    gsap.to(stat.parentElement, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        ease: 'power3.out'
-                    });
-                },
-                once: true
-            });
-        });
-
-        // Section headers animation
-        document.querySelectorAll('.section-header').forEach(header => {
-            gsap.to(header, {
-                scrollTrigger: {
-                    trigger: header,
-                    start: 'top 80%',
-                    once: true
-                },
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: 'power3.out'
-            });
-        });
-
-        // Service cards animation
-        document.querySelectorAll('.service-card').forEach((card, index) => {
-            gsap.to(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                    once: true
-                },
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: 'power3.out'
-            });
-        });
-
-        // Portfolio items animation
-        document.querySelectorAll('.portfolio-item').forEach((item, index) => {
-            gsap.to(item, {
-                scrollTrigger: {
-                    trigger: item,
-                    start: 'top 85%',
-                    once: true
-                },
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                delay: index * 0.1,
-                ease: 'power3.out'
-            });
-        });
-
-        // Process steps animation
-        document.querySelectorAll('.process-step').forEach((step, index) => {
-            gsap.to(step, {
-                scrollTrigger: {
-                    trigger: step,
-                    start: 'top 85%',
-                    once: true
-                },
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                delay: index * 0.15,
-                ease: 'power3.out'
-            });
-        });
-
-        // About content animation
-        gsap.to('.about-content', {
-            scrollTrigger: {
-                trigger: '.about',
-                start: 'top 60%',
-                once: true
-            },
-            opacity: 1,
-            x: 0,
-            duration: 0.8,
-            ease: 'power3.out'
-        });
-
-        // Testimonials slider
-        let currentTestimonial = 0;
-        const testimonials = document.querySelectorAll('.testimonial-item');
-        const dots = document.querySelectorAll('.testimonial-dot');
-
-        function showTestimonial(index) {
-            testimonials.forEach((item, i) => {
-                item.classList.remove('active');
-                dots[i].classList.remove('active');
-            });
-            testimonials[index].classList.add('active');
-            dots[index].classList.add('active');
-            currentTestimonial = index;
-        }
-
-        // Auto-rotate testimonials
-        setInterval(() => {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            showTestimonial(currentTestimonial);
-        }, 5000);
-
-        // Form submission
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
-            e.target.reset();
-        });
-
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Parallax effect for hero background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const heroBg = document.querySelector('.hero-bg');
-            if (heroBg) {
-                heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
-            }
-        });
-    </script>
+    <!-- Scripts -->
+    <script src="src/js/main.js"></script>
 </body>
 </html>
