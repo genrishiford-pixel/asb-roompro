@@ -1,0 +1,67 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  # Услуги
+  - name: "services"
+    label: "Услуги"
+    folder: "content/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Название", name: "title", widget: "string"}
+      - {label: "Описание", name: "description", widget: "text"}
+      - {label: "Иконка (эмодзи)", name: "icon", widget: "string"}
+      - {label: "Порядок", name: "order", widget: "number", default: 1}
+
+  # Портфолио
+  - name: "portfolio"
+    label: "Портфолио"
+    folder: "content/portfolio"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Название проекта", name: "title", widget: "string"}
+      - {label: "Категория", name: "category", widget: "string"}
+      - {label: "Местоположение", name: "location", widget: "string"}
+      - {label: "Изображение", name: "image", widget: "image"}
+      - {label: "Описание", name: "description", widget: "text"}
+      - {label: "Год", name: "year", widget: "number"}
+
+  # О компании
+  - name: "about"
+    label: "О компании"
+    folder: "content/about"
+    create: false
+    slug: "index"
+    fields:
+      - {label: "Заголовок", name: "title", widget: "string", default: "О компании"}
+      - {label: "Основной текст", name: "content", widget: "markdown"}
+      - {label: "Изображение", name: "image", widget: "image"}
+
+  # Контакты
+  - name: "contacts"
+    label: "Контакты"
+    folder: "content/contacts"
+    create: false
+    slug: "index"
+    fields:
+      - {label: "Телефон", name: "phone", widget: "string", default: "+79013801305"}
+      - {label: "Email", name: "email", widget: "string", default: "genrishiford@gmail.com"}
+      - {label: "VK", name: "vk", widget: "string", default: "https://vk.com/robert_gareev"}
+      - {label: "Адрес", name: "address", widget: "string"}
+
+  # Настройки сайта
+  - name: "settings"
+    label: "Настройки сайта"
+    folder: "content/settings"
+    create: false
+    slug: "index"
+    fields:
+      - {label: "Название компании", name: "site_name", widget: "string", default: "АСБ РУМ ПРО"}
+      - {label: "Заголовок Hero", name: "hero_title", widget: "string", default: "Строительство и ремонт от профессионалов"}
+      - {label: "Подзаголовок Hero", name: "hero_subtitle", widget: "string", default: "Комплексные решения для вашего дома"}
