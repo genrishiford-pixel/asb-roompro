@@ -34,6 +34,9 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="src/css/main.css">
+    
+    <!-- CMS Loader -->
+    <script src="src/js/cms-loader.js"></script>
 </head>
 <body>
     <!-- 1. PRELOADER -->
@@ -116,43 +119,8 @@
                 <span class="section-subtitle">Услуги</span>
                 <h2 class="section-title">Полный спектр услуг</h2>
             </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">✦</div>
-                    <h3 class="service-title">Архитектурное проектирование</h3>
-                    <p class="service-description">Индивидуальные проекты жилых домов, коттеджей, гаражей и бань. Полный пакет документации для строительства.</p>
-                    <a href="#contact" class="service-link">Подробнее →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">◈</div>
-                    <h3 class="service-title">Строительство под ключ</h3>
-                    <p class="service-description">Возведение малоэтажных домов любой сложности. Работаем по договору с фиксированными сроками и ценами.</p>
-                    <a href="#contact" class="service-link">Подробнее →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">◉</div>
-                    <h3 class="service-title">Дизайн интерьера</h3>
-                    <p class="service-description">Разработка концепции, 3D-визуализация, подбор материалов и мебели. От скандинавского стиля до хай-тека.</p>
-                    <a href="#contact" class="service-link">Подробнее →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">▣</div>
-                    <h3 class="service-title">Ремонт квартир</h3>
-                    <p class="service-description">Капитальный ремонт и отделка квартир под ключ. Работаем в новостройках и вторичном фонде.</p>
-                    <a href="#contact" class="service-link">Подробнее →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">◆</div>
-                    <h3 class="service-title">Коммерческая недвижимость</h3>
-                    <p class="service-description">Проектирование и строительство офисов, магазинов, ресторанов. Участие в тендерах.</p>
-                    <a href="#contact" class="service-link">Подробнее →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">❖</div>
-                    <h3 class="service-title">Отделка многоэтажек</h3>
-                    <p class="service-description">Внутренняя отделка подъездов, холлов и общих зон в многоквартирных домах. Опыт работы с крупными застройщиками.</p>
-                    <a href="#contact" class="service-link">Подробнее →</a>
-                </div>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Services will be loaded dynamically -->
             </div>
         </div>
     </section>
@@ -207,10 +175,10 @@
                     <div class="calc-step">
                         <span class="calc-step-label">1. Выберите тип объекта</span>
                         <div class="calc-options">
-                            <div class="calc-option" data-type=" дом">Дом</div>
-                            <div class="calc-option" data-type=" квартира">Квартира</div>
-                            <div class="calc-option" data-type=" коммерция">Коммерция</div>
-                            <div class="calc-option" data-type=" ремонт">Ремонт</div>
+                            <div class="calc-option" data-type="дом">Дом</div>
+                            <div class="calc-option" data-type="квартира">Квартира</div>
+                            <div class="calc-option" data-type="коммерция">Коммерция</div>
+                            <div class="calc-option" data-type="ремонт">Ремонт</div>
                         </div>
                     </div>
                     <!-- Step 2: Area -->
@@ -245,61 +213,20 @@
         </div>
     </section>
 
-    <!-- 7. PORTFOLIO -->
+    <!-- 8. PORTFOLIO -->
     <section id="portfolio" class="portfolio">
         <div class="container">
             <div class="section-header">
                 <span class="section-subtitle">Портфолио</span>
                 <h2 class="section-title">Реализованные проекты</h2>
             </div>
-            <div class="portfolio-scroll">
-                <div class="portfolio-item">
-                    <img src="https://kimi-web-img.moonshot.cn/img/cdn.shopify.com/785e75761626046e18ef1fba7542b7dd2db6df98.jpg" alt="Скандинавский дом" class="portfolio-img" loading="lazy">
-                    <div class="portfolio-overlay">
-                        <span class="portfolio-category">Интерьер</span>
-                        <h3 class="portfolio-title">Скандинавская спальня</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://kimi-web-img.moonshot.cn/img/covetlighting.com/a873c8adf644f97c3e169b22418659a26a2d3d10.jpg" alt="Кухня" class="portfolio-img" loading="lazy">
-                    <div class="portfolio-overlay">
-                        <span class="portfolio-category">Интерьер</span>
-                        <h3 class="portfolio-title">Мрамор и золото</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://kimi-web-img.moonshot.cn/img/www.decorilla.com/729e9d3893c407194607636ce9d0c1a5b5edee9d.jpg" alt="Гостиная" class="portfolio-img" loading="lazy">
-                    <div class="portfolio-overlay">
-                        <span class="portfolio-category">Интерьер</span>
-                        <h3 class="portfolio-title">Современная классика</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://kimi-web-img.moonshot.cn/img/archello.s3.eu-central-1.amazonaws.com/f177b86414b4f4c537da306bc0cd96cea7033ea0.jpg" alt="Пентхаус" class="portfolio-img" loading="lazy">
-                    <div class="portfolio-overlay">
-                        <span class="portfolio-category">Интерьер</span>
-                        <h3 class="portfolio-title">Luxury Penthouse</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://kimi-web-img.moonshot.cn/img/design-milk.com/be6ef023e025dfb6b0b39b3cad3d9598fe025986.jpg" alt="Бетонный дом" class="portfolio-img" loading="lazy">
-                    <div class="portfolio-overlay">
-                        <span class="portfolio-category">Архитектура</span>
-                        <h3 class="portfolio-title">Бетон и стекло</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://kimi-web-img.moonshot.cn/img/www.realestate.com.au/ee11f8aba02b53d08adc7aa670406c3966c0fa18.jpg" alt="Пентхаус с видом" class="portfolio-img" loading="lazy">
-                    <div class="portfolio-overlay">
-                        <span class="portfolio-category">Архитектура</span>
-                        <h3 class="portfolio-title">Панорамные окна</h3>
-                    </div>
-                </div>
+            <div class="portfolio-scroll" id="portfolioGrid">
+                <!-- Portfolio items will be loaded dynamically -->
             </div>
         </div>
     </section>
 
-    <!-- 8. ABOUT -->
+    <!-- 9. ABOUT -->
     <section id="about" class="about">
         <div class="container">
             <div class="about-grid">
@@ -339,7 +266,7 @@
         </div>
     </section>
 
-    <!-- 9. REVIEWS -->
+    <!-- 10. REVIEWS -->
     <section class="reviews">
         <div class="container">
             <div class="section-header">
@@ -363,7 +290,7 @@
         </div>
     </section>
 
-    <!-- 10. CONTACT -->
+    <!-- 11. CONTACT -->
     <section id="contact" class="contact">
         <div class="container">
             <div class="contact-wrapper">
@@ -433,7 +360,7 @@
         </div>
     </section>
 
-    <!-- 11. FOOTER -->
+    <!-- 12. FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -473,5 +400,95 @@
 
     <!-- Scripts -->
     <script src="src/js/main.js"></script>
+    
+    <script>
+        // Dynamic content loading
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load settings first
+            const settings = await cmsLoader.loadSettings();
+            if (settings) {
+                // Update navigation with site title
+                const navLogo = document.querySelector('.nav-logo');
+                if (navLogo) {
+                    navLogo.innerHTML = `${settings.site_title} <span>РУМ</span> ПРО`;
+                }
+                
+                // Update footer with dynamic data
+                const footerBrand = document.querySelector('.footer-brand .nav-logo');
+                if (footerBrand) {
+                    footerBrand.innerHTML = settings.site_title;
+                }
+                
+                const footerText = document.querySelector('.footer-text');
+                if (footerText) {
+                    footerText.textContent = settings.site_description || 'Строительная компания полного цикла. Архитектура, строительство, дизайн интерьера. От эскиза до сдачи под ключ.';
+                }
+                
+                const socialLinks = document.querySelector('.social-links');
+                if (socialLinks) {
+                    let socialHTML = '';
+                    if (settings.vk) socialHTML += `<a href="${settings.vk}" target="_blank" aria-label="VK">VK</a>`;
+                    if (settings.whatsapp) socialHTML += `<a href="${settings.whatsapp}" target="_blank" aria-label="WhatsApp">WA</a>`;
+                    socialLinks.innerHTML = socialHTML;
+                }
+            }
+            
+            // Load services
+            const services = await cmsLoader.loadCollection('services');
+            if (services && services.length > 0) {
+                const servicesGrid = document.getElementById('servicesGrid');
+                if (servicesGrid) {
+                    let servicesHTML = '';
+                    services.forEach(service => {
+                        servicesHTML += `
+                            <div class="service-card">
+                                <div class="service-icon">${service.icon || '⭐'}</div>
+                                <h3 class="service-title">${service.title}</h3>
+                                <p class="service-description">${service.description}</p>
+                                ${service.price_from || service.price_to ? `
+                                    <p class="service-price">
+                                        ${service.price_from ? '₽' + service.price_from.toLocaleString() : ''}
+                                        ${service.price_from && service.price_to ? ' - ' : ''}
+                                        ${service.price_to ? '₽' + service.price_to.toLocaleString() : ''}
+                                    </p>
+                                ` : ''}
+                                <a href="/service.html?slug=${service.slug}" class="service-link">Подробнее →</a>
+                            </div>
+                        `;
+                    });
+                    servicesGrid.innerHTML = servicesHTML;
+                }
+            }
+            
+            // Load portfolio
+            const portfolio = await cmsLoader.loadCollection('portfolio');
+            if (portfolio && portfolio.length > 0) {
+                const portfolioGrid = document.getElementById('portfolioGrid');
+                if (portfolioGrid) {
+                    let portfolioHTML = '';
+                    portfolio.forEach(project => {
+                        portfolioHTML += `
+                            <div class="portfolio-item">
+                                <img src="${project.image || '/assets/images/placeholder.jpg'}" 
+                                     alt="${project.title}" 
+                                     class="portfolio-img" 
+                                     loading="lazy">
+                                <div class="portfolio-overlay">
+                                    <span class="portfolio-category">${project.type}</span>
+                                    <h3 class="portfolio-title">${project.title}</h3>
+                                    <p class="portfolio-location">${project.location}</p>
+                                    ${project.square ? `<p class="portfolio-area">${project.square} м²</p>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    portfolioGrid.innerHTML = portfolioHTML;
+                }
+            }
+            
+            // Setup service links
+            cmsLoader.setupServiceLinks();
+        });
+    </script>
 </body>
 </html>

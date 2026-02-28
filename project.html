@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - {{site_title}}</title>
+    <meta name="description" content="{{description}}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+    if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+    if (!user) {
+    window.netlifyIdentity.on("login", () => {
+    document.location.href = "/admin/";
+    });
+    }
+    });
+    }
+    </script>
+    
+    <!-- Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/src/css/main.css">
+    
+    <!-- CMS Loader -->
+    <script src="/src/js/cms-loader.js"></script>
+</head>
+<body>
+    <!-- 1. PRELOADER -->
+    <div class="preloader">
+        <div class="preloader-logo">{{site_title}}</div>
+    </div>
+
+    <!-- 2. NAVIGATION -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">{{site_title}}</a>
+        <ul class="nav-links">
+            <li><a href="/#services">Услуги</a></li>
+            <li><a href="/#portfolio">Портфолио</a></li>
+            <li><a href="/#process">Процесс</a></li>
+            <li><a href="/#about">О нас</a></li>
+            <li><a href="/#contact">Контакты</a></li>
+        </ul>
+        <a href="tel:{{phone}}" class="nav-phone">{{phone}}</a>
+        <div class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Call Button -->
+    <a href="tel:{{phone}}" class="mobile-call-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+        </svg>
+    </a>
+
+    <!-- 3. PROJECT DETAIL -->
+    <section class="project-detail">
+        <div class="container">
+            <div class="project-header">
+                <div class="project-meta">
+                    <span class="project-type">{{type}}</span>
+                    <span class="project-year">{{year}}</span>
+                    {{#square}}
+                    <span class="project-area">{{square}} м²</span>
+                    {{/square}}
+                    {{#duration}}
+                    <span class="project-duration">{{duration}}</span>
+                    {{/duration}}
+                </div>
+                <h1 class="project-title">{{title}}</h1>
+                <p class="project-location">{{location}}</p>
+            </div>
+            
+            {{^before_after}}
+            {{else}}
+            <div class="project-before-after">
+                <h3>До и после</h3>
+                <div class="before-after-grid">
+                    <div class="before-after-item">
+                        <img src="{{before_after.before}}" alt="До" loading="lazy">
+                        <span class="before-after-label">До</span>
+                    </div>
+                    <div class="before-after-item">
+                        <img src="{{before_after.after}}" alt="После" loading="lazy">
+                        <span class="before-after-label">После</span>
+                    </div>
+                </div>
+            </div>
+            {{/before_after}}
+            
+            <div class="project-gallery">
+                <h3>Галерея</h3>
+                <div class="gallery-lightbox">
+                    {{#gallery}}
+                    <div class="gallery-item" data-index="{{@index}}">
+                        <img src="{{image}}" alt="{{title}}" loading="lazy">
+                    </div>
+                    {{/gallery}}
+                </div>
+            </div>
+            
+            <div class="project-content">
+                {{body}}
+            </div>
+            
+            {{^testimonial}}
+            {{else}}
+            <div class="project-testimonial">
+                <h3>Отзыв заказчика</h3>
+                <div class="testimonial-content">
+                    <p class="testimonial-text">{{testimonial.text}}</p>
+                    <div class="testimonial-author">
+                        <span class="author-name">{{testimonial.author}}</span>
+                        <span class="author-date">{{testimonial.date}}</span>
+                    </div>
+                </div>
+            </div>
+            {{/testimonial}}
+            
+            <div class="project-cta">
+                <a href="/#portfolio" class="btn btn-outline">Вернуться к портфолио</a>
+                <a href="/#contact" class="btn btn-primary">Обсудить проект</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="nav-logo">{{site_title}}</a>
+                    <p class="footer-text">{{site_description}}</p>
+                    <div class="social-links">
+                        {{#social_links}}
+                        {{#vk}}
+                        <a href="{{vk}}" target="_blank" aria-label="VK">VK</a>
+                        {{/vk}}
+                        {{#whatsapp}}
+                        <a href="{{whatsapp}}" target="_blank" aria-label="WhatsApp">WA</a>
+                        {{/whatsapp}}
+                        {{#instagram}}
+                        <a href="{{instagram}}" target="_blank" aria-label="Instagram">IG</a>
+                        {{/instagram}}
+                        {{#facebook}}
+                        <a href="{{facebook}}" target="_blank" aria-label="Facebook">FB</a>
+                        {{/facebook}}
+                        {{/social_links}}
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#services">Услуги</a></li>
+                        <li><a href="/#portfolio">Портфолио</a></li>
+                        <li><a href="/#process">Процесс</a></li>
+                        <li><a href="/#about">О нас</a></li>
+                        <li><a href="/#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Услуги</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#services">Проектирование</a></li>
+                        <li><a href="/#services">Строительство</a></li>
+                        <li><a href="/#services">Ремонт</a></li>
+                        <li><a href="/#services">Дизайн</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{year}} {{site_title}}. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/src/js/main.js"></script>
+    <script>
+        // Lightbox functionality
+        class Lightbox {
+            constructor() {
+                this.currentImage = null;
+                this.images = [];
+                this.init();
+            }
+
+            init() {
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.gallery-item')) {
+                        e.preventDefault();
+                        const item = e.target.closest('.gallery-item');
+                        this.open(item);
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('lightbox-overlay') || 
+                        e.target.classList.contains('lightbox-close')) {
+                        this.close();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.close();
+                    }
+                });
+            }
+
+            open(item) {
+                this.images = Array.from(document.querySelectorAll('.gallery-item'));
+                this.currentImage = item;
+                
+                const img = item.querySelector('img');
+                const src = img.src;
+                const alt = img.alt;
+                
+                const lightboxHTML = `
+                    <div class="lightbox-overlay">
+                        <div class="lightbox-container">
+                            <button class="lightbox-close">&times;</button>
+                            <div class="lightbox-image">
+                                <img src="${src}" alt="${alt}">
+                            </div>
+                            <div class="lightbox-nav">
+                                <button class="lightbox-prev"><</button>
+                                <button class="lightbox-next">></button>
+                            </div>
+                            <div class="lightbox-info">
+                                <span class="lightbox-caption">${alt}</span>
+                                <span class="lightbox-counter">${this.getCurrentIndex() + 1} / ${this.images.length}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+                this.setupNavigation();
+            }
+
+            close() {
+                const overlay = document.querySelector('.lightbox-overlay');
+                if (overlay) {
+                    overlay.remove();
+                }
+            }
+
+            setupNavigation() {
+                const prevBtn = document.querySelector('.lightbox-prev');
+                const nextBtn = document.querySelector('.lightbox-next');
+                
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => this.prev());
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => this.next());
+                }
+            }
+
+            getCurrentIndex() {
+                return this.images.indexOf(this.currentImage);
+            }
+
+            next() {
+                const currentIndex = this.getCurrentIndex();
+                const nextIndex = (currentIndex + 1) % this.images.length;
+                this.currentImage = this.images[nextIndex];
+                this.updateLightbox();
+            }
+
+            prev() {
+                const currentIndex = this.getCurrentIndex();
+                const prevIndex = (currentIndex - 1 + this.images.length) % this.images.length;
+                this.currentImage = this.images[prevIndex];
+                this.updateLightbox();
+            }
+
+            updateLightbox() {
+                const overlay = document.querySelector('.lightbox-overlay');
+                if (!overlay) return;
+                
+                const img = this.currentImage.querySelector('img');
+                const src = img.src;
+                const alt = img.alt;
+                
+                const image = overlay.querySelector('.lightbox-image img');
+                const caption = overlay.querySelector('.lightbox-caption');
+                const counter = overlay.querySelector('.lightbox-counter');
+                
+                if (image) image.src = src;
+                if (caption) caption.textContent = alt;
+                if (counter) counter.textContent = `${this.getCurrentIndex() + 1} / ${this.images.length}`;
+            }
+        }
+
+        // Dynamic content loading
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('slug');
+            
+            if (!slug) {
+                window.location.href = '/';
+                return;
+            }
+            
+            try {
+                const project = await cmsLoader.loadContent('portfolio', slug);
+                if (!project) {
+                    // Try fallback content
+                    const fallback = cmsLoader.getFallbackContent('portfolio', slug);
+                    if (fallback) {
+                        Object.assign(project, fallback);
+                    } else {
+                        throw new Error('Project not found');
+                    }
+                }
+                
+                // Update page content with project data
+                document.title = `${project.title} - ${project.site_title || 'АСБ РУМ ПРО'}`;
+                
+                // Update meta description
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', project.description);
+                }
+                
+                // Update project detail content
+                const projectHeader = document.querySelector('.project-header');
+                if (projectHeader) {
+                    let metaHTML = `
+                        <div class="project-meta">
+                            <span class="project-type">${project.type}</span>
+                            <span class="project-year">${project.year}</span>
+                    `;
+                    if (project.square) {
+                        metaHTML += `<span class="project-area">${project.square} м²</span>`;
+                    }
+                    if (project.duration) {
+                        metaHTML += `<span class="project-duration">${project.duration}</span>`;
+                    }
+                    metaHTML += `
+                        </div>
+                        <h1 class="project-title">${project.title}</h1>
+                        <p class="project-location">${project.location}</p>
+                    `;
+                    projectHeader.innerHTML = metaHTML;
+                }
+                
+                const projectContent = document.querySelector('.project-content');
+                if (projectContent) {
+                    projectContent.innerHTML = project.body;
+                }
+                
+                // Update before/after
+                const projectBeforeAfter = document.querySelector('.project-before-after');
+                if (projectBeforeAfter && project.before_after) {
+                    let beforeAfterHTML = `
+                        <h3>До и после</h3>
+                        <div class="before-after-grid">
+                            <div class="before-after-item">
+                                <img src="${project.before_after.before}" alt="До" loading="lazy">
+                                <span class="before-after-label">До</span>
+                            </div>
+                            <div class="before-after-item">
+                                <img src="${project.before_after.after}" alt="После" loading="lazy">
+                                <span class="before-after-label">После</span>
+                            </div>
+                        </div>
+                    `;
+                    projectBeforeAfter.innerHTML = beforeAfterHTML;
+                }
+                
+                // Update gallery
+                const projectGallery = document.querySelector('.project-gallery');
+                if (projectGallery && project.gallery) {
+                    let galleryHTML = `
+                        <h3>Галерея</h3>
+                        <div class="gallery-lightbox">
+                    `;
+                    project.gallery.forEach((item, index) => {
+                        galleryHTML += `
+                            <div class="gallery-item" data-index="${index}">
+                                <img src="${item.image}" alt="${project.title}" loading="lazy">
+                            </div>
+                        `;
+                    });
+                    galleryHTML += `
+                        </div>
+                    `;
+                    projectGallery.innerHTML = galleryHTML;
+                    
+                    // Initialize lightbox
+                    new Lightbox();
+                }
+                
+                // Update testimonial
+                const projectTestimonial = document.querySelector('.project-testimonial');
+                if (projectTestimonial && project.testimonial) {
+                    let testimonialHTML = `
+                        <h3>Отзыв заказчика</h3>
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">${project.testimonial.text}</p>
+                            <div class="testimonial-author">
+                                <span class="author-name">${project.testimonial.author}</span>
+                                <span class="author-date">${project.testimonial.date}</span>
+                            </div>
+                        </div>
+                    `;
+                    projectTestimonial.innerHTML = testimonialHTML;
+                }
+                
+                // Update footer with dynamic data
+                const footer = document.querySelector('footer');
+                if (footer) {
+                    const footerHTML = `
+                        <div class="container">
+                            <div class="footer-content">
+                                <div class="footer-brand">
+                                    <a href="/" class="nav-logo">${project.site_title}</a>
+                                    <p class="footer-text">${project.site_description}</p>
+                                    <div class="social-links">
+                                        ${project.vk ? `<a href="${project.vk}" target="_blank" aria-label="VK">VK</a>` : ''}
+                                        ${project.whatsapp ? `<a href="${project.whatsapp}" target="_blank" aria-label="WhatsApp">WA</a>` : ''}
+                                        ${project.instagram ? `<a href="${project.instagram}" target="_blank" aria-label="Instagram">IG</a>` : ''}
+                                        ${project.facebook ? `<a href="${project.facebook}" target="_blank" aria-label="Facebook">FB</a>` : ''}
+                                    </div>
+                                </div>
+                                <div class="footer-column">
+                                    <h4>Навигация</h4>
+                                    <ul class="footer-links">
+                                        <li><a href="/#services">Услуги</a></li>
+                                        <li><a href="/#portfolio">Портфолио</a></li>
+                                        <li><a href="/#process">Процесс</a></li>
+                                        <li><a href="/#about">О нас</a></li>
+                                        <li><a href="/#contact">Контакты</a></li>
+                                    </ul>
+                                </div>
+                                <div class="footer-column">
+                                    <h4>Услуги</h4>
+                                    <ul class="footer-links">
+                                        <li><a href="/#services">Проектирование</a></li>
+                                        <li><a href="/#services">Строительство</a></li>
+                                        <li><a href="/#services">Ремонт</a></li>
+                                        <li><a href="/#services">Дизайн</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="footer-bottom">
+                                <p>&copy; ${project.year} ${project.site_title}. Все права защищены.</p>
+                            </div>
+                        </div>
+                    `;
+                    footer.innerHTML = footerHTML;
+                }
+                
+            } catch (error) {
+                console.error('Error loading project:', error);
+                // Show 404 page
+                document.title = 'Проект не найден - АСБ РУМ ПРО';
+                document.body.innerHTML = `
+                    <div style="text-align: center; padding: 50px; font-family: Inter, sans-serif;">
+                        <h1 style="font-size: 48px; margin-bottom: 20px;">404</h1>
+                        <p style="font-size: 24px; margin-bottom: 20px;">Проект не найден</p>
+                        <p style="margin-bottom: 30px;">Запрашиваемый вами проект не существует или был удален.</p>
+                        <a href="/" style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">Вернуться на главную</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+
+    <style>
+        /* Lightbox styles */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            cursor: pointer;
+        }
+        
+        .lightbox-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 1;
+        }
+        
+        .lightbox-image {
+            text-align: center;
+        }
+        
+        .lightbox-image img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        
+        .lightbox-prev,
+        .lightbox-next {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 30px;
+            padding: 10px 20px;
+            cursor: pointer;
+            pointer-events: all;
+        }
+        
+        .lightbox-info {
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .lightbox-caption {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .lightbox-counter {
+            font-size: 14px;
+        }
+    </style>
+</body>
+</html>

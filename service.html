@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - {{site_title}}</title>
+    <meta name="description" content="{{description}}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+    if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+    if (!user) {
+    window.netlifyIdentity.on("login", () => {
+    document.location.href = "/admin/";
+    });
+    }
+    });
+    }
+    </script>
+    
+    <!-- Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/src/css/main.css">
+    
+    <!-- CMS Loader -->
+    <script src="/src/js/cms-loader.js"></script>
+</head>
+<body>
+    <!-- 1. PRELOADER -->
+    <div class="preloader">
+        <div class="preloader-logo">{{site_title}}</div>
+    </div>
+
+    <!-- 2. NAVIGATION -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">{{site_title}}</a>
+        <ul class="nav-links">
+            <li><a href="/#services">Услуги</a></li>
+            <li><a href="/#portfolio">Портфолио</a></li>
+            <li><a href="/#process">Процесс</a></li>
+            <li><a href="/#about">О нас</a></li>
+            <li><a href="/#contact">Контакты</a></li>
+        </ul>
+        <a href="tel:{{phone}}" class="nav-phone">{{phone}}</a>
+        <div class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Call Button -->
+    <a href="tel:{{phone}}" class="mobile-call-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+        </svg>
+    </a>
+
+    <!-- 3. SERVICE DETAIL -->
+    <section class="service-detail">
+        <div class="container">
+            <div class="service-header">
+                <div class="service-icon">{{icon}}</div>
+                <h1 class="service-title">{{title}}</h1>
+                <p class="service-description">{{description}}</p>
+            </div>
+            
+            <div class="service-content">
+                {{body}}
+            </div>
+            
+            {{^price_from}}
+            {{^price_to}}
+            {{else}}
+            <div class="service-pricing">
+                <h3>Стоимость работ</h3>
+                <p>
+                    {{^price_from}}
+                    {{else}}
+                    №{{price_from.toLocaleString()}}
+                    {{/price_from}}
+                    {{^price_from}}
+                    {{^price_to}}
+                    {{else}}
+                    - 
+                    {{/price_to}}
+                    {{^price_to}}
+                    {{else}}
+                    №{{price_to.toLocaleString()}}
+                    {{/price_to}}
+                </p>
+            </div>
+            {{/price_to}}
+            {{/price_from}}
+            
+            {{^gallery}}
+            {{else}}
+            <div class="service-gallery">
+                <h3>Примеры работ</h3>
+                <div class="gallery-grid">
+                    {{#gallery}}
+                    <div class="gallery-item">
+                        <img src="{{image}}" alt="{{title}}" loading="lazy">
+                    </div>
+                    {{/gallery}}
+                </div>
+            </div>
+            {{/gallery}}
+            
+            {{^features}}
+            {{else}}
+            <div class="service-features">
+                <h3>Преимущества</h3>
+                <ul class="features-list">
+                    {{#features}}
+                    <li>{{feature}}</li>
+                    {{/features}}
+                </ul>
+            </div>
+            {{/features}}
+            
+            {{^faq}}
+            {{else}}
+            <div class="service-faq">
+                <h3>Вопросы и ответы</h3>
+                <div class="faq-list">
+                    {{#faq}}
+                    <div class="faq-item">
+                        <h4 class="faq-question">{{question}}</h4>
+                        <div class="faq-answer">{{{answer}}}</div>
+                    </div>
+                    {{/faq}}
+                </div>
+            </div>
+            {{/faq}}
+            
+            <div class="service-cta">
+                <a href="/#contact" class="btn btn-primary">Заказать услугу</a>
+                <a href="/" class="btn btn-outline">На главную</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="nav-logo">{{site_title}}</a>
+                    <p class="footer-text">{{site_description}}</p>
+                    <div class="social-links">
+                        {{#social_links}}
+                        {{#vk}}
+                        <a href="{{vk}}" target="_blank" aria-label="VK">VK</a>
+                        {{/vk}}
+                        {{#whatsapp}}
+                        <a href="{{whatsapp}}" target="_blank" aria-label="WhatsApp">WA</a>
+                        {{/whatsapp}}
+                        {{#instagram}}
+                        <a href="{{instagram}}" target="_blank" aria-label="Instagram">IG</a>
+                        {{/instagram}}
+                        {{#facebook}}
+                        <a href="{{facebook}}" target="_blank" aria-label="Facebook">FB</a>
+                        {{/facebook}}
+                        {{/social_links}}
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#services">Услуги</a></li>
+                        <li><a href="/#portfolio">Портфолио</a></li>
+                        <li><a href="/#process">Процесс</a></li>
+                        <li><a href="/#about">О нас</a></li>
+                        <li><a href="/#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Услуги</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#services">Проектирование</a></li>
+                        <li><a href="/#services">Строительство</a></li>
+                        <li><a href="/#services">Ремонт</a></li>
+                        <li><a href="/#services">Дизайн</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{year}} {{site_title}}. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/src/js/main.js"></script>
+    <script>
+        // Dynamic content loading
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('slug');
+            
+            if (!slug) {
+                window.location.href = '/';
+                return;
+            }
+            
+            try {
+                const service = await cmsLoader.loadContent('services', slug);
+                if (!service) {
+                    // Try fallback content
+                    const fallback = cmsLoader.getFallbackContent('services', slug);
+                    if (fallback) {
+                        Object.assign(service, fallback);
+                    } else {
+                        throw new Error('Service not found');
+                    }
+                }
+                
+                // Update page content with service data
+                document.title = `${service.title} - ${service.site_title || 'АСБ РУМ ПРО'}`;
+                
+                // Update meta description
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', service.description);
+                }
+                
+                // Update service detail content
+                const serviceHeader = document.querySelector('.service-header');
+                if (serviceHeader) {
+                    serviceHeader.innerHTML = `
+                        <div class="service-icon">${service.icon || '⭐'}</div>
+                        <h1 class="service-title">${service.title}</h1>
+                        <p class="service-description">${service.description}</p>
+                    `;
+                }
+                
+                const serviceContent = document.querySelector('.service-content');
+                if (serviceContent) {
+                    serviceContent.innerHTML = service.body;
+                }
+                
+                // Update pricing
+                const servicePricing = document.querySelector('.service-pricing');
+                if (servicePricing) {
+                    const priceHTML = `
+                        <h3>Стоимость работ</h3>
+                        <p>
+                            ${service.price_from ? '№' + service.price_from.toLocaleString() : ''}
+                            ${service.price_from && service.price_to ? ' - ' : ''}
+                            ${service.price_to ? '№' + service.price_to.toLocaleString() : ''}
+                        </p>
+                    `;
+                    servicePricing.innerHTML = priceHTML;
+                }
+                
+                // Update gallery
+                const serviceGallery = document.querySelector('.service-gallery');
+                if (serviceGallery && service.gallery) {
+                    let galleryHTML = `
+                        <h3>Примеры работ</h3>
+                        <div class="gallery-grid">
+                    `;
+                    service.gallery.forEach(item => {
+                        galleryHTML += `
+                            <div class="gallery-item">
+                                <img src="${item.image}" alt="${service.title}" loading="lazy">
+                            </div>
+                        `;
+                    });
+                    galleryHTML += `
+                        </div>
+                    `;
+                    serviceGallery.innerHTML = galleryHTML;
+                }
+                
+                // Update features
+                const serviceFeatures = document.querySelector('.service-features');
+                if (serviceFeatures && service.features) {
+                    let featuresHTML = `
+                        <h3>Преимущества</h3>
+                        <ul class="features-list">
+                    `;
+                    service.features.forEach(feature => {
+                        featuresHTML += `
+                            <li>${feature.feature}</li>
+                        `;
+                    });
+                    featuresHTML += `
+                        </ul>
+                    `;
+                    serviceFeatures.innerHTML = featuresHTML;
+                }
+                
+                // Update FAQ
+                const serviceFaq = document.querySelector('.service-faq');
+                if (serviceFaq && service.faq) {
+                    let faqHTML = `
+                        <h3>Вопросы и ответы</h3>
+                        <div class="faq-list">
+                    `;
+                    service.faq.forEach(item => {
+                        faqHTML += `
+                            <div class="faq-item">
+                                <h4 class="faq-question">${item.question}</h4>
+                                <div class="faq-answer">${item.answer}</div>
+                            </div>
+                        `;
+                    });
+                    faqHTML += `
+                        </div>
+                    `;
+                    serviceFaq.innerHTML = faqHTML;
+                }
+                
+                // Update footer with dynamic data
+                const footer = document.querySelector('footer');
+                if (footer) {
+                    const footerHTML = `
+                        <div class="container">
+                            <div class="footer-content">
+                                <div class="footer-brand">
+                                    <a href="/" class="nav-logo">${service.site_title}</a>
+                                    <p class="footer-text">${service.site_description}</p>
+                                    <div class="social-links">
+                                        ${service.vk ? `<a href="${service.vk}" target="_blank" aria-label="VK">VK</a>` : ''}
+                                        ${service.whatsapp ? `<a href="${service.whatsapp}" target="_blank" aria-label="WhatsApp">WA</a>` : ''}
+                                        ${service.instagram ? `<a href="${service.instagram}" target="_blank" aria-label="Instagram">IG</a>` : ''}
+                                        ${service.facebook ? `<a href="${service.facebook}" target="_blank" aria-label="Facebook">FB</a>` : ''}
+                                    </div>
+                                </div>
+                                <div class="footer-column">
+                                    <h4>Навигация</h4>
+                                    <ul class="footer-links">
+                                        <li><a href="/#services">Услуги</a></li>
+                                        <li><a href="/#portfolio">Портфолио</a></li>
+                                        <li><a href="/#process">Процесс</a></li>
+                                        <li><a href="/#about">О нас</a></li>
+                                        <li><a href="/#contact">Контакты</a></li>
+                                    </ul>
+                                </div>
+                                <div class="footer-column">
+                                    <h4>Услуги</h4>
+                                    <ul class="footer-links">
+                                        <li><a href="/#services">Проектирование</a></li>
+                                        <li><a href="/#services">Строительство</a></li>
+                                        <li><a href="/#services">Ремонт</a></li>
+                                        <li><a href="/#services">Дизайн</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="footer-bottom">
+                                <p>&copy; ${new Date().getFullYear()} ${service.site_title}. Все права защищены.</p>
+                            </div>
+                        </div>
+                    `;
+                    footer.innerHTML = footerHTML;
+                }
+                
+            } catch (error) {
+                console.error('Error loading service:', error);
+                // Show 404 page
+                document.title = 'Услуга не найдена - АСБ РУМ ПРО';
+                document.body.innerHTML = `
+                    <div style="text-align: center; padding: 50px; font-family: Inter, sans-serif;">
+                        <h1 style="font-size: 48px; margin-bottom: 20px;">404</h1>
+                        <p style="font-size: 24px; margin-bottom: 20px;">Услуга не найдена</p>
+                        <p style="margin-bottom: 30px;">Запрашиваемая вами услуга не существует или была удалена.</p>
+                        <a href="/" style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">Вернуться на главную</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

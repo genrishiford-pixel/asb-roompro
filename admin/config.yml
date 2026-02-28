@@ -20,6 +20,12 @@ collections:
       - {label: "Цена до", name: "price_to", widget: "number", required: false}
       - {label: "Активна", name: "active", widget: "boolean", default: true}
       - {label: "Порядок", name: "order", widget: "number", default: 0}
+      - {label: "Галерея", name: "gallery", widget: "list", field: {name: "image", label: "Фото", widget: "image"}, required: false}
+      - {label: "Преимущества", name: "features", widget: "list", field: {name: "feature", label: "Преимущество", widget: "string"}, required: false}
+      - {label: "FAQ", name: "faq", widget: "list", fields: [
+          {label: "Вопрос", name: "question", widget: "string"},
+          {label: "Ответ", name: "answer", widget: "markdown"}
+        ], required: false}
 
   - name: "portfolio"
     label: "Портфолио"
@@ -28,16 +34,36 @@ collections:
     slug: "{{slug}}"
     fields:
       - {label: "Название проекта", name: "title", widget: "string"}
-      - {label: "Категория", name: "category", widget: "select", options: ["Дома", "Квартиры", "Коммерция", "Ремонт"]}
-      - {label: "Город", name: "city", widget: "string"}
+      - {label: "Тип", name: "type", widget: "select", options: ["Дом", "Квартира", "Коммерция", "Отделка"]}
+      - {label: "Локация", name: "location", widget: "string"}
       - {label: "Год", name: "year", widget: "number"}
-      - {label: "Площадь (м²)", name: "area", widget: "number", required: false}
-      - {label: "Бюджет", name: "budget", widget: "string", required: false}
-      - {label: "Фото до", name: "image_before", widget: "image", required: false}
-      - {label: "Фото после", name: "image_after", widget: "image", required: false}
+      - {label: "Площадь (м²)", name: "square", widget: "number", required: false}
+      - {label: "Срок выполнения", name: "duration", widget: "string", required: false}
       - {label: "Галерея", name: "gallery", widget: "list", field: {name: "image", label: "Фото", widget: "image"}, required: false}
+      - {label: "Фото до/после", name: "before_after", widget: "object", fields: [
+          {label: "Фото до", name: "before", widget: "image"},
+          {label: "Фото после", name: "after", widget: "image"}
+        ], required: false}
+      - {label: "Отзыв", name: "testimonial", widget: "object", fields: [
+          {label: "Автор", name: "author", widget: "string"},
+          {label: "Текст", name: "text", widget: "text"},
+          {label: "Дата", name: "date", widget: "date"}
+        ], required: false}
       - {label: "Описание", name: "body", widget: "markdown"}
       - {label: "Активен", name: "active", widget: "boolean", default: true}
+
+  - name: "pages"
+    label: "Страницы"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Заголовок", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Содержимое", name: "body", widget: "markdown"}
+      - {label: "SEO заголовок", name: "seo_title", widget: "string", required: false}
+      - {label: "SEO описание", name: "seo_description", widget: "text", required: false}
+      - {label: "Показывать в меню", name: "show_in_menu", widget: "boolean", default: false}
 
   - name: "team"
     label: "Команда"
@@ -79,3 +105,9 @@ collections:
           - {label: "VK", name: "vk", widget: "string", default: "https://vk.com/robert_gareev"}
           - {label: "WhatsApp", name: "whatsapp", widget: "string", default: "+79677397117"}
           - {label: "Адрес", name: "address", widget: "text"}
+          - {label: "Соцсети", name: "social_links", widget: "object", fields: [
+              {label: "VK", name: "vk", widget: "string", required: false},
+              {label: "WhatsApp", name: "whatsapp", widget: "string", required: false},
+              {label: "Instagram", name: "instagram", widget: "string", required: false},
+              {label: "Facebook", name: "facebook", widget: "string", required: false}
+            ], required: false}
