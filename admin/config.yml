@@ -74,8 +74,8 @@ collections:
         fields:
           - {label: "Название компании", name: "site_title", widget: "string", default: "АСБ РУМ ПРО"}
           - {label: "Описание", name: "site_description", widget: "text"}
-          - {label: "Телефон", name: "phone", widget: "string", default: "+79013801305"}
-          - {label: "Email", name: "email", widget: "string", default: "genrishiford@gmail.com"}
+          - {label: "Телефон", name: "phone", widget: "string", default: "+79677397117"}
+          - {label: "Email", name: "email", widget: "string", default: "info@asb-roompro.ru"}
           - {label: "VK", name: "vk", widget: "string", default: "https://vk.com/robert_gareev"}
-          - {label: "WhatsApp", name: "whatsapp", widget: "string", default: "+79013801305"}
+          - {label: "WhatsApp", name: "whatsapp", widget: "string", default: "+79677397117"}
           - {label: "Адрес", name: "address", widget: "text"}

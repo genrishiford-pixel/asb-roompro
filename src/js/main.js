@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileCallBtn = document.querySelector('.mobile-call-btn');
     if (mobileCallBtn) {
         mobileCallBtn.addEventListener('click', () => {
-            window.location.href = 'tel:+79013801305';
+            window.location.href = 'tel:+79677397117';
         });
     }
 });
