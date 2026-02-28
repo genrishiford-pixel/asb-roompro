@@ -742,6 +742,234 @@ img {
     margin-top: 4rem;
 }
 
+/* Portfolio Scroll (horizontal ribbon) */
+.portfolio-scroll {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.portfolio-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.portfolio-scroll::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+}
+
+.portfolio-scroll::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 3px;
+}
+
+.portfolio-scroll .portfolio-item {
+    min-width: 350px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    opacity: 1;
+    transform: none;
+}
+
+.portfolio-scroll .portfolio-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+}
+
+/* ========================================
+   6. PROCESS
+   ======================================== */
+.process {
+    padding: 8rem 5%;
+    background: var(--white);
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.process-step {
+    text-align: center;
+    position: relative;
+    padding: 2rem 1rem;
+}
+
+.process-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+.process-number {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--secondary);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.process-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 0.8rem;
+}
+
+.process-text {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+/* ========================================
+   8. ABOUT
+   ======================================== */
+.about {
+    padding: 8rem 5%;
+    background: var(--light);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.about-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.about-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.about-content .section-title {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.about-content .section-subtitle {
+    text-align: left;
+}
+
+.about-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+}
+
+.about-advantages {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.about-advantage {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.about-advantage > span:first-child {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+.about-advantage > span:nth-child(2) {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.about-advantage-text {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0;
+}
+
+.check-icon {
+    color: var(--secondary) !important;
+}
+
+/* Reviews Grid */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.review-card {
+    background: var(--light);
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    position: relative;
+}
+
+.review-card::before {
+    content: '"';
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--secondary);
+    opacity: 0.2;
+    line-height: 1;
+}
+
+.review-card .review-text {
+    font-size: 1rem;
+    font-style: normal;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--gray);
+}
+
+.review-card .review-author {
+    font-style: normal;
+    font-size: 0.9rem;
+    color: var(--primary);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: none;
+}
+
+/* Service Icons (symbol style) */
+.service-card .service-icon {
+    background: transparent;
+    width: auto;
+    height: auto;
+    font-size: 2.5rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
+}
+
 /* ========================================
    8. ADVANTAGES
    ======================================== */
@@ -1131,8 +1359,29 @@ footer {
     .footer-content {
         grid-template-columns: 1fr 1fr;
     }
+    
+    .process-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .process-step:nth-child(3)::after {
+        display: none;
+    }
+    
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .about-images {
+        max-width: 500px;
+    }
+    
+    .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
-
+    
 @media (max-width: 768px) {
     .nav-links {
         position: fixed;
@@ -1217,6 +1466,45 @@ footer {
     .portfolio-item.medium,
     .portfolio-item.small {
         grid-column: span 1;
+    }
+    
+    .portfolio-scroll .portfolio-item {
+        min-width: 280px;
+    }
+    
+    .process-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .process-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+        text-align: left;
+        padding: 1.5rem 1rem;
+    }
+    
+    .process-step::after {
+        display: none !important;
+    }
+    
+    .process-number {
+        font-size: 2rem;
+        margin-bottom: 0;
+        min-width: 50px;
+    }
+    
+    .about-images {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-img {
+        height: 200px;
+    }
+    
+    .reviews-grid {
+        grid-template-columns: 1fr;
     }
     
     .advantages-grid {
